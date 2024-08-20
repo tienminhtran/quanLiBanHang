@@ -82,6 +82,10 @@ include_once 'connect.php';
             <li><a class="nav-link" href="donhang.php">Đơn hàng</a></li>
             </li>
 
+            <li class="nav-item">
+            <li><a class="nav-link" href="giohang.php">Giỏ hàng</a></li>
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Sản Phẩm</a>
                 <ul class="dropdown-menu">

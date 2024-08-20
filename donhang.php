@@ -10,8 +10,9 @@ include_once 'connect.php';
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=
-    , initial-scale=1.0">
+    <!-- <meta name="viewport" content="width= , initial-scale=1.0"> -->
+    <meta charset="utf-8">
+
     <title>Đơn hàng</title>
     <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -64,8 +65,8 @@ include_once 'connect.php';
     </style>
 </head>
 
-<body>
-    <div class="row">
+<body cz-shortcut-listen="true">
+    <div class="container ">
         <ul class="nav justify-content-end">
             <li class="nav-item">
                 <a class="nav-link" href="trangchu.php">Trang chủ</a>
@@ -73,16 +74,9 @@ include_once 'connect.php';
             <li class="nav-item">
             <li><a class="nav-link" href="donhang.php">Đơn hàng</a></li>
             </li>
-            <?php if (isset($_SESSION['Name']) == 0) { ?>
-            <li><a class="nav-link" href="registry.php">Đăng ký</a></li>
-            <li><a class="nav-link" href="login.php">Đăng nhập</a></li>
+            <li class="nav-item">
+            <li><a class="nav-link" href="giohang.php">Giỏ hàng</a></li>
             </li>
-            <?php } else { ?>
-            <li><a class="nav-link" href="logout.php?flag=1">Đăng xuất</a></li>
-            <li><a class="nav-link" href="#"><?php echo 'Xin chào ' .
-        $_SESSION['Name'] .
-        '!'; ?></a>
-                <?php } ?>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Sản Phẩm</a>
@@ -95,17 +89,32 @@ include_once 'connect.php';
                     <li><a class="dropdown-item" href="trangchu.php?category=10">Sách Y Khoa</a></li>
                 </ul>
             </li>
+
+
+            <?php if (isset($_SESSION['Name']) == 0) { ?>
+            <li><a class="nav-link" href="registry.php">Đăng ký</a></li>
+            <li><a class="nav-link" href="login.php">Đăng nhập</a></li>
+            </li>
+            <?php } else { ?>
+            <li><a class="nav-link" href="logout.php?flag=1">Đăng xuất</a></li>
+            <li><a class="nav-link" href="#"><?php echo 'Xin chào ' .
+        $_SESSION['Name'] .
+        '!'; ?></a>
+                <?php } ?>
+
+
         </ul>
 
 
+
     </div>
-
-
 </body>
 
 </html>
-<h2>Thông Tin Các Đơn Đặt Hàng:</h2>
-<?php
+<div class="container ">
+
+    <h2>Thông Tin Các Đơn Đặt Hàng:</h2>
+    <?php
 
 // bo o dau trang, de o cuoi cho nay, neu loi nha 20/8
 // session_start();
@@ -152,17 +161,17 @@ if ($result->num_rows > 0) {
 		echo "<td>" . $row["Prices"] . "</td>";
 		echo "<td>";
 		?>
-<?php
+    <?php
 		if($_SESSION["Role"]==1)//Quản trị
 	{
 	?>
 
-<a onclick="return confirm('Bạn có chắc xóa không?');" href="xoa_donhang.php?ma=<?php echo $row["OrderID"];?>"><img
-        src="images/icons8-delete-24.png"></a>
-<?php
+    <a onclick="return confirm('Bạn có chắc xóa không?');" href="xoa_donhang.php?ma=<?php echo $row["OrderID"];?>"><img
+            src="images/icons8-delete-24.png"></a>
+    <?php
 	}
 	?>
-<?php	
+    <?php	
 		
 			
 		echo "</td>";		
@@ -175,8 +184,71 @@ if ($result->num_rows > 0) {
 }
 
 ?>
-<h3><a class="nav-link" href="trangchu.php">Quay Lại Trang chủ</a></h3>
-<?php
+    <!-- da cmt/  -->
+    <!-- <h3><a class="nav-link" href="trangchu.php">Quay Lại Trang chủ</a></h3> -->
+    <?php
 // Đóng kết nối
 $conn->close();
 ?>
+    <hr>
+    <div class="row">
+        <div class="col-md-2" ; style="color: #000000">
+            <h6>Địa chỉ:</h6>
+            <p>Số 04, Nguyễn Văn Bảo, Phường 4, Gò Vấp, Hồ Chi Minh</p>
+        </div>
+        <div class="col-md-2" ; style="color: #000000">
+            <h6>Số điện thoại:</h6>
+            <p>0123456789</p>
+            <p>0911123456</p>
+        </div>
+        <div class="col-md-2" ; style="color: #000000">
+            <h6>Mạng xã hội</h6>
+
+            <a target="#" href="https://www.w3schools.com/bootstrap4/" style="color: #000000">
+                <img src="./images/Youtube-on.webp">
+                Youtube
+            </a>
+            <br>
+            <a target="#" href="https://www.w3schools.com/bootstrap4/" style="color: #000000">
+                <img src="./images/Facebook-on.webp">
+                Facebook
+            </a><br>
+            <a target="#" href="https://www.w3schools.com/bootstrap4/bootstrap_get_started.asp" style="color: #000000">
+                <img src="./images/twitter-on.webp">
+                Twitter
+            </a>
+
+
+        </div>
+        <div class="col-md-2" ; style="color: #000000">
+            <h6>Về chúng tôi</h6>
+            <ul>
+                <li><a target="#" href="trangchu.php" style="color: #000000">Trang chủ</a></li>
+                <li><a target="#" href="giohang.php" style="color: #000000">Giỏ hàng</a></li>
+                <li><a target="#" href="donhang.php" style="color: #000000">Đơn hàng</a></li>
+
+            </ul>
+        </div>
+        <div class="col">
+            <div>
+                <a href="http://online.gov.vn/Home/WebDetails/19168">
+                    <img src="./images/bocongthuong.png" width="230" height="90">
+                </a>
+            </div>
+            <div>
+                <img src=" ./images/ZaloPay-logo-130x83.webp" width="85" height="40">
+                <img src="./images/shopeepay_logo.webp" width="70" height="40">
+                <img src="./images/momopay.webp" width="50" height="40">
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="col-md-6">&nbsp</div> -->
+
+</div>
+<!-- màu đen  -->
+<span style="color: #000000	;">
+    <footer class="container-fluid text-center">
+        <p>© 2021 Bản quyền thuộc về Team Code K17</p>
+    </footer>
+    </div>

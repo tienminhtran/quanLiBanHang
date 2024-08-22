@@ -3,10 +3,10 @@
 
 ?>
 
-<div class = "row mt-3">
-	<div class = "col-sm-3">&nbsp;</div>
-	<div class = "col-sm-6">
-		<?php
+<div class="row mt-3">
+    <div class="col-sm-3">&nbsp;</div>
+    <div class="col-sm-6">
+        <?php
 			//1 - Viết câu truy vấn
 			$sql = "SELECT c.Name, count(b.ISBN) SoLuong FROM books b, categories c WHERE b.CategoryID = c.CategoryID GROUP BY c.CategoryID";
 			//echo $sql;
@@ -16,7 +16,7 @@
 			if($result->num_rows>0)
 			{
 				echo "<table class = 'table table-hover table-bordered'>";
-				echo "<tr><th>Danh  mục</th><th>Số lượng ấn phẩm</th></tr>";
+				echo "<tr class='table-danger'><th>Danh  mục</th><th>Số lượng ấn phẩm</th></tr>";
 				while($row = $result->fetch_assoc())
 				{
 					echo "<tr>";
@@ -32,13 +32,13 @@
 				
 			}
 		?>
-	
-	</div>
-	<div class = "col-sm-3">&nbsp;</div>
+
+    </div>
+    <div class="col-sm-3">&nbsp;</div>
 </div>
 
 
-	
+
 
 <?php
 	include_once("qt_phanchan.php");

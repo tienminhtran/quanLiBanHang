@@ -1,24 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tổng doanh thu</title>
-    <style>
+<?php
+	include_once("qt_phandau.php");
+?>
+<div>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tổng doanh thu</title>
+
+    </head>
+
+    <body>
+        <style>
         .doanhthu {
-            background-color: #f4f4f4;
-            padding: 10px;
             margin-top: 20px;
-            font-size: 18px;
+            font-size: 40px;
             font-weight: bold;
-            text-align: center;
-            border-radius: 5px;
+            color: #ff5733;
+
+
+
         }
-    </style>
-</head>
-<body>
-    <h2>Thống Kê Doanh Thu Cửa Hàng:</h2>
-    <?php
+        </style>
+
+
+        <?php
     // Kết nối cơ sở dữ liệu
     include_once("connect.php");
 
@@ -36,8 +44,8 @@
     if ($result->num_rows > 0) {
         // Hiển thị dữ liệu
 
-        echo "<table border='1'>
-                <tr>
+        echo "<table class = 'table table-hover table-bordered'>
+                <tr class='table-danger'>
                     <th>OrderID</th>
                     <th>Tên tài khoản đặt hàng</th>
                     <th>Ngày đặt</th>
@@ -71,10 +79,12 @@
         echo "Không có đơn hàng nào.";
     }
     ?>
-    <h3><a class="nav-link" href="trangchu.php">Quay Lại Trang chủ</a></h3>
-    <?php
+        <!-- <h3><a class="nav-link" href="trangchu.php">Quay Lại Trang chủ</a></h3> -->
+        <?php
     // Đóng kết nối
     $conn->close();
     ?>
-</body>
-</html>
+    </body>
+
+    </html>
+</div>

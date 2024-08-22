@@ -66,6 +66,7 @@ include_once 'connect.php';
 
 <body>
 
+
     <div class="container ">
         <ul class="nav justify-content-end ">
             <?php if ($_SESSION['Role'] == 1) {//Quản trị
@@ -306,9 +307,9 @@ include_once 'connect.php';
                 </ul>
             </div>
             <div class="col">
-                <div>
+                <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                     <a href="http://online.gov.vn/Home/WebDetails/19168">
-                        <img src="./images/bocongthuong.png" width="230" height="90">
+                        <img src="./images/bc.png" width="230" height="90">
                     </a>
                 </div>
                 <div>

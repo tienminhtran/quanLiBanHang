@@ -1,3 +1,10 @@
+<?php
+session_start();
+//echo $_SESSION["Role"];
+//1-Kết nối cơ sở dữ liệu
+include_once 'connect.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -103,11 +110,11 @@
 </html>
 <div class="container ">
     <?php
-session_start();
+// session_start();
 
 
-//1- Kết nối cơ sở dữ liệu
-include_once("connect.php");
+// //1- Kết nối cơ sở dữ liệu
+// include_once("connect.php");
 
 //2- Viết câu truy vấn
 	$isbn="";
@@ -219,7 +226,7 @@ if(isset($_POST['sbThemhang'])) {
         <div class="col">
             <div>
                 <a href="http://online.gov.vn/Home/WebDetails/19168">
-                    <img src="./images/bocongthuong.png" width="230" height="90">
+                    <img src="./images/bc.png" width="230" height="90">
                 </a>
             </div>
             <div>

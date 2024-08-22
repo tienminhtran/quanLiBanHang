@@ -4,20 +4,20 @@
 ?>
 <!--Phần nội dung-->
 <h2>
-	Quản lý thông tin hình ảnh
-	<hr>
+    Quản lý thông tin hình ảnh
+    <hr>
 </h2>
 
-<table class = "table table-hover">
-	<tr>
-		<th>ISBN</th>
-		<th>Tựa đề</th>
-		<th>Thêm</th>
-		<th>Album ảnh</th>
-		<!--<th>Xóa</th>
-		<th>Sửa</th>-->
-	</tr>
-	<?php
+<table class="table table-hover table-striped">
+    <tr class="table-primary">
+        <th>ISBN</th>
+        <th>Tựa đề</th>
+        <th>Thêm</th>
+        <th>Album ảnh</th>
+        <!-- <th>Xóa</th>
+        <th>Sửa</th> -->
+    </tr>
+    <?php
 		//Select dữ liệu từ bảng books
 		//1- Kết nối cơ sở dữ liệu
 		include_once("connect.php");
@@ -40,16 +40,16 @@
 				echo "<td>".$row["Title"]."</td>";
 				echo "<td>";
 				?>
-					<a href = "them_photo.php?ma=<?php echo $row["ISBN"];?>"><img src = "images/icons8-add-32.png"></a>
-				
-				<?php
+    <a href="them_photo.php?ma=<?php echo $row["ISBN"];?>"><img src="images/icons8-add-32.png"></a>
+
+    <?php
 				echo "</td>";
 				echo "<td>";
 				?>
-					<a href = "xem_photo.php?ma=<?php echo $row["ISBN"];?>"><img src = "images/icons8-view-24.png"></a>
-					<!--<span>(<?php //echo $row["sl"];?>)</span>-->
-				
-				<?php
+    <a href="xem_photo.php?ma=<?php echo $row["ISBN"];?>"><img src="images/icons8-view-24.png"></a>
+    <!--<span>(<?php //echo $row["sl"];?>)</span>-->
+
+    <?php
 				echo "</td>";
 				
 				

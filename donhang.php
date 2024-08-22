@@ -118,7 +118,7 @@ include_once 'connect.php';
 
 // bo o dau trang, de o cuoi cho nay, neu loi nha 20/8
 // session_start();
-// //1-Kết nối cơ sở dữ liệu
+//1-Kết nối cơ sở dữ liệu
 // include_once("connect.php");
 
 // Truy vấn để lấy thông tin đơn hàng của mọi khách hàng kèm theo tên khách hàng và tiêu đề sách
@@ -134,62 +134,86 @@ $result = $conn->query($sql);
 
 
 if ($result->num_rows > 0) {
-    // Hiển thị dữ liệu
-	
-    echo "<table border='2'>
-            <tr>
-                <th>OrderID</th>
-                <th>Tên tài khoản</th>
-                <th>Ngày đặt</th>
-                <th>ISBN</th>
-                <th>Tên Sách</th>                
-				<th>Giá</th> 
-				<th>Số lượng</th>
-				<th>Tổng tiền</th>
-				<th>Xoá</th>
-            </tr>";
-
+    echo "
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        td:last-child {
+            text-align: center;
+        }
+        .delete-button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .delete-button:hover {
+            background-color: #ff3333;
+        }
+    </style>
+    <table border='4'>
+        <tr>
+            <th>OrderID</th>
+            <th>Tên tài khoản</th>
+            <th>Ngày đặt</th>
+            <th>ISBN</th>
+            <th>Tên Sách</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tổng tiền</th>
+            <th>Xoá</th>
+        </tr>";
+    
     while($row = $result->fetch_assoc()) {
-        echo "<tr>";
+        echo "<tr> ";
         echo "<td>" . $row["OrderID"] . "</td>";
         echo "<td>" . $row["Username"] . "</td>";
         echo "<td>" . $row["DateTran"] . "</td>";
         echo "<td>" . $row["ISBN"] . "</td>";
         echo "<td>" . $row["Title"] . "</td>";  
-		echo "<td>" . $row["Price"] . "</td>";		
+        echo "<td>" . $row["Price"] . "</td>";     
         echo "<td>" . $row["Quantity"] . "</td>";
-		echo "<td>" . $row["Prices"] . "</td>";
-		echo "<td>";
-		?>
-    <?php
-		if($_SESSION["Role"]==1)//Quản trị
-	{
-	?>
-
-    <a onclick="return confirm('Bạn có chắc xóa không?');" href="xoa_donhang.php?ma=<?php echo $row["OrderID"];?>"><img
-            src="images/icons8-delete-24.png"></a>
-    <?php
-	}
-	?>
-    <?php	
-		
-			
-		echo "</td>";		
+        echo "<td>" . $row["Prices"] . "</td>";
+        
+        echo "<td>";
+        if($_SESSION["Role"]==1) {  // Quản trị
+            echo "<a onclick=\"return confirm('Bạn có chắc xóa không?');\" href='xoa_donhang.php?ma=" . $row["OrderID"] . "'><img src='images/icons8-delete-24.png' class='delete-button'></a>";
+        }
+        echo "</td>";
+        
         echo "</tr>";
     }
-
+    
     echo "</table>";
-} else {
-    echo "Không có đơn hàng nào.";
-}
+    } else {
+        echo "Không có đơn hàng nào.";
+    }
+    
+    // Đóng kết nối
+    $conn->close();
+    ?>
 
-?>
-    <!-- da cmt/  -->
-    <!-- <h3><a class="nav-link" href="trangchu.php">Quay Lại Trang chủ</a></h3> -->
-    <?php
-// Đóng kết nối
-$conn->close();
-?>
     <hr>
     <div class="row">
         <div class="col-md-2" ; style="color: #000000">
@@ -232,7 +256,7 @@ $conn->close();
         <div class="col">
             <div>
                 <a href="http://online.gov.vn/Home/WebDetails/19168">
-                    <img src="./images/bocongthuong.png" width="230" height="90">
+                    <img src="./images/bc.png" width="230" height="90">
                 </a>
             </div>
             <div>

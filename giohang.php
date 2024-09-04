@@ -1,20 +1,56 @@
 <?php
 session_start();
-//echo $_SESSION["Role"];
-//1-Kết nối cơ sở dữ liệu
-include_once 'connect.php';
+require 'connect.php'; // Kết nối với cơ sở dữ liệu
 
+// Khởi tạo biến thông báo
+$message = '';
+
+// Kiểm tra xem AccountID đã được lưu trong session chưa
+if (isset($_SESSION['AccountID'])) {
+    $accountId = intval($_SESSION['AccountID']);
+} else {
+    $message = '<div class="alert alert-danger">Bạn chưa đăng nhập.</div>';
+    exit; // Ngừng thực thi nếu chưa đăng nhập
+}
+
+// Xử lý khi form được submit
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sbgiohang'])) {
+    // Lấy dữ liệu từ form
+    $isbn = isset($_POST['txtISBN']) ? htmlspecialchars($_POST['txtISBN']) : '';
+    $quantity = isset($_POST['txtSoLuongGH']) ? intval($_POST['txtSoLuongGH']) : 0;
+
+    // Kiểm tra số lượng và thêm sách vào giỏ hàng
+    if ($quantity > 0) {
+        $query = "INSERT INTO cart_items (AccountID, ISBN, Quantity, DateAdded) VALUES (?, ?, ?, NOW())";
+        $stmt = $conn->prepare($query);
+
+        if (!$stmt) {
+            die('Prepare failed: ' . htmlspecialchars($conn->error));
+        }
+
+        $stmt->bind_param('isi', $accountId, $isbn, $quantity);
+
+        // Kiểm tra xem việc thêm vào có thành công không
+        if ($stmt->execute()) {
+            $message = '<div class="alert alert-success">Sách đã được thêm vào giỏ hàng.</div>';
+        } else {
+            $message = '<div class="alert alert-danger">Có lỗi xảy ra. Vui lòng thử lại.</div>';
+        }
+
+        $stmt->close();
+    } else {
+        $message = '<div class="alert alert-warning">Số lượng phải lớn hơn 0.</div>';
+    }
+}
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giỏ hàng</title>
+    <title>Website giới thiệu sản phẩm ...</title>
+    <meta charset="utf-8">
     <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./CSS/css.css" rel="stylesheet">
 
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -72,6 +108,7 @@ include_once 'connect.php';
             <!-- <li class="nav-item">
             <li><a class="nav-link" href="donhang.php">Đơn hàng</a></li>
             </li> -->
+
             <li class="nav-item">
             <li><a class="nav-link" href="giohang.php">Giỏ hàng</a></li>
             </li>
@@ -88,7 +125,6 @@ include_once 'connect.php';
                 </ul>
             </li>
 
-
             <?php if (isset($_SESSION['Name']) == 0) { ?>
             <li><a class="nav-link" href="registry.php">Đăng ký</a></li>
             <li><a class="nav-link" href="login.php">Đăng nhập</a></li>
@@ -100,7 +136,6 @@ include_once 'connect.php';
         '!'; ?></a>
                 <?php } ?>
 
-
         </ul>
 
 
@@ -108,141 +143,68 @@ include_once 'connect.php';
 </body>
 
 </html>
-<div class="container ">
-    <?php
-// session_start();
 
+<!DOCTYPE html>
+<html lang="en">
 
-// //1- Kết nối cơ sở dữ liệu
-// include_once("connect.php");
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 
-//2- Viết câu truy vấn
-	$isbn="";
-if(isset($_POST['sbThemhang'])) {
-	$isbn = $_POST['txtISBN']; 					//lấy được ISBN
-    $soLuongMua = $_POST['txtSoLuongMua'];    //lấy được số lượng sách mua
-    $dateTran = date("Y-m-d");
-    $amount = "1";
-    $accountId = $_SESSION["Account"];
-	$name= $_SESSION["Name"];
-}
-?>
+<body>
+    <div class="container">
+        <!-- Hiển thị thông báo -->
+        <?php if (!empty($message)) echo $message; ?>
 
-    <table class="table table-hover" style="text-align: center;" border='5'>
-        <tr>
-            <th>Tài khoản đặt hàng</th>
-            <th>ISBN</th>
-            <th>Tựa đề</th>
-            <th>Giá</th>
-            <th>Số lượng tồn kho</th>
-            <th>Số lượng đặt</th>
-            <th>Thanh toán</th>
-        </tr>
-        <?php
-		//Select dữ liệu từ bảng books
-		//1- Kết nối cơ sở dữ liệu
-		include_once("connect.php");
-		
-		//2- Viết câu truy vấn
-		$sql = "SELECT * FROM books WHERE ISBN = '$isbn'";
-		
-		//3-Thực thi câu truy vấn, nhận kết quả trả về
-		$result = $conn->query($sql);
-		
-		//4 - Kiểm tra dữ liệu và hiển kết quả nếu có mẩu tin
-		if($result->num_rows>0)
-		{
-			//Có mẩu tin >>Hiển thị từng mẩu tin
-			while($row = $result->fetch_assoc())
-			{
-				echo "<tr>";
-				echo "<td>".$name."</td>";
-				echo "<td>".$row["ISBN"]."</td>";
-				echo "<td>".$row["Title"]."</td>";
-				echo "<td>".$row["Price"]."</td>";
-				echo "<td>".$row["Soluong"]."</td>";
-				echo "<td>".$soLuongMua."</td>";
-				echo "<td>";
-				?>
+        <!-- Bảng hiển thị giỏ hàng -->
+        <table class="table table-hover" style="text-align: center;" border='5'>
+            <thead>
+                <tr>
+                    <th>Tài khoản đặt hàng</th>
+                    <th>ISBN</th>
+                    <th>Tựa đề</th>
+                    <th>Giá</th>
+                    <th>Số lượng tồn kho</th>
+                    <th>Số lượng đặt</th>
+                    <th>Thanh toán</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Truy vấn để lấy các sản phẩm trong giỏ hàng
+                $sql = "SELECT cart_items.ISBN, books.Title, books.Price, books.Soluong, cart_items.Quantity
+                        FROM cart_items
+                        JOIN books ON cart_items.ISBN = books.ISBN
+                        WHERE cart_items.AccountID = ?";
+                $stmt = $conn->prepare($sql);
 
-        <a href="
-    hoadon_thanhtoan.php?ma=<?php echo $row["ISBN"];?>&slm=<?php echo $soLuongMua;?>&gia=<?php echo $row["Price"];?>">
-            Thanh
-            toán</a>
-        <?php
-				echo "</td>";
-				echo "</tr>";
-			}
-		}
-		else
-		{
-			//0 có mẩu tin
-			echo "0 có quyển sách nào trong giỏ";
-		}
-		
-	?>
+                if (!$stmt) {
+                    die('Prepare failed: ' . htmlspecialchars($conn->error));
+                }
 
-    </table>
-    <!-- <h3><a class="btn btn-primary" href="trangchu.php">Quay lại trang chủ</a></h3> -->
-    <hr>
-    <div class="row">
-        <div class="col-md-2" ; style="color: #000000">
-            <h6>Địa chỉ:</h6>
-            <p>Số 04, Nguyễn Văn Bảo, Phường 4, Gò Vấp, Hồ Chi Minh</p>
-        </div>
-        <div class="col-md-2" ; style="color: #000000">
-            <h6>Số điện thoại:</h6>
-            <p>0123456789</p>
-            <p>0911123456</p>
-        </div>
-        <div class="col-md-2" ; style="color: #000000">
-            <h6>Mạng xã hội</h6>
+                $stmt->bind_param('i', $accountId);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
-            <a target="#" href="https://www.w3schools.com/bootstrap4/" style="color: #000000">
-                <img src="./images/Youtube-on.webp">
-                Youtube
-            </a>
-            <br>
-            <a target="#" href="https://www.w3schools.com/bootstrap4/" style="color: #000000">
-                <img src="./images/Facebook-on.webp">
-                Facebook
-            </a><br>
-            <a target="#" href="https://www.w3schools.com/bootstrap4/bootstrap_get_started.asp" style="color: #000000">
-                <img src="./images/twitter-on.webp">
-                Twitter
-            </a>
+                // Hiển thị các sản phẩm trong giỏ hàng
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>';
+                    echo '<td>' . htmlspecialchars($accountId) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['ISBN']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['Title']) . '</td>';
+                    echo '<td>' . htmlspecialchars(number_format($row['Price'], 2)) . ' VND</td>';
+                    echo '<td>' . htmlspecialchars($row['Soluong']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['Quantity']) . '</td>';
+                    echo '<td><a href="checkout.php?isbn=' . htmlspecialchars($row['ISBN']) . '" class="btn btn-primary">Thanh toán</a></td>';
+                    echo '</tr>';
+                }
 
-
-        </div>
-        <div class="col-md-2" ; style="color: #000000">
-            <h6>Về chúng tôi</h6>
-            <ul>
-                <li><a target="#" href="trangchu.php" style="color: #000000">Trang chủ</a></li>
-                <li><a target="#" href="giohang.php" style="color: #000000">Giỏ hàng</a></li>
-                <li><a target="#" href="donhang_kh.php" style="color: #000000">Đơn hàng</a></li>
-
-            </ul>
-        </div>
-        <div class="col">
-            <div>
-                <a href="http://online.gov.vn/Home/WebDetails/19168">
-                    <img src="./images/bc.png" width="230" height="90">
-                </a>
-            </div>
-            <div>
-                <img src=" ./images/ZaloPay-logo-130x83.webp" width="85" height="40">
-                <img src="./images/shopeepay_logo.webp" width="70" height="40">
-                <img src="./images/momopay.webp" width="50" height="40">
-            </div>
-        </div>
+                $stmt->close();
+                ?>
+            </tbody>
+        </table>
     </div>
+</body>
 
-    <!-- <div class="col-md-6">&nbsp</div> -->
-
-</div>
-<!-- màu đen  -->
-<span style="color: #000000	;">
-    <footer class="container-fluid text-center">
-        <p>© 2021 Bản quyền thuộc về Team Code K17</p>
-    </footer>
-    </div>
+</html>

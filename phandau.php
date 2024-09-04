@@ -123,7 +123,7 @@ include_once 'connect.php';
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a></li>
-                    <li><a class="dropdown-item" href="profile.php">Xem thông tin</a></li>
+                    <!-- <li><a class="dropdown-item" href="profile.php">Xem thông tin</a></li> -->
                     <li class="nav-item"><a class="nav-link" href="logout.php?flag=1">Đăng xuất</a></li>
 
                 </ul>

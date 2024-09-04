@@ -10,10 +10,8 @@ include_once 'connect.php';
 
 <head>
     <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width= , initial-scale=1.0"> -->
-    <meta charset="utf-8">
-
-    <title>Đơn hàng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng</title>
     <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./CSS/css.css" rel="stylesheet">
@@ -65,13 +63,15 @@ include_once 'connect.php';
     </style>
 </head>
 
-<body cz-shortcut-listen="true">
+<body>
     <div class="container ">
         <ul class="nav justify-content-end">
             <li class="nav-item">
                 <a class="nav-link" href="trangchu.php">Trang chủ</a>
             </li>
-
+            <!-- <li class="nav-item">
+            <li><a class="nav-link" href="donhang.php">Đơn hàng</a></li>
+            </li> -->
             <li class="nav-item">
             <li><a class="nav-link" href="giohang.php">Giỏ hàng</a></li>
             </li>
@@ -104,113 +104,86 @@ include_once 'connect.php';
         </ul>
 
 
-
     </div>
 </body>
 
 </html>
 <div class="container ">
-
-    <h2>Thông Tin Các Đơn Đặt Hàng:</h2>
     <?php
-
-// bo o dau trang, de o cuoi cho nay, neu loi nha 20/8
 // session_start();
-//1-Kết nối cơ sở dữ liệu
+
+
+// //1- Kết nối cơ sở dữ liệu
 // include_once("connect.php");
 
-// Truy vấn để lấy thông tin đơn hàng của mọi khách hàng kèm theo tên khách hàng và tiêu đề sách
-$sql = "SELECT o.OrderID, a.Username, o.Amount, o.DateTran, i.ISBN, b.Title, b.Price, i.Prices, i.Quantity
-        FROM orders o
-        INNER JOIN order_items i ON o.OrderID = i.OrderID
-        INNER JOIN accounts a ON o.AccountID = a.AccountID
-        INNER JOIN books b ON i.ISBN = b.ISBN";
+//2- Viết câu truy vấn
+	$isbn="";
+if(isset($_POST['sbThemhang'])) {
+	$isbn = $_POST['txtISBN']; 					//lấy được ISBN
+    $soLuongMua = $_POST['txtSoLuongMua'];    //lấy được số lượng sách mua
+    $dateTran = date("Y-m-d");
+    $amount = "1";
+    $accountId = $_SESSION["Account"];
+	$name= $_SESSION["Name"];
+}
+?>
 
-$result = $conn->query($sql);
-
-
-
-
-if ($result->num_rows > 0) {
-    echo "
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: Arial, sans-serif;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        td:last-child {
-            text-align: center;
-        }
-        .delete-button {
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .delete-button:hover {
-            background-color: #ed8b8b;
-        }
-    </style>
-    <table border='4'>
+    <table class="table table-hover" style="text-align: center;" border='5'>
         <tr>
-            <th>OrderID</th>
-            <th>Tên tài khoản</th>
-            <th>Ngày đặt</th>
+            <th>Tài khoản đặt hàng</th>
             <th>ISBN</th>
-            <th>Tên Sách</th>
+            <th>Tựa đề</th>
             <th>Giá</th>
-            <th>Số lượng</th>
-            <th>Tổng tiền</th>
-            <th>Xoá</th>
-        </tr>";
-    
-    while($row = $result->fetch_assoc()) {
-        echo "<tr> ";
-        echo "<td>" . $row["OrderID"] . "</td>";
-        echo "<td>" . $row["Username"] . "</td>";
-        echo "<td>" . $row["DateTran"] . "</td>";
-        echo "<td>" . $row["ISBN"] . "</td>";
-        echo "<td>" . $row["Title"] . "</td>";  
-        echo "<td>" . $row["Price"] . "</td>";     
-        echo "<td>" . $row["Quantity"] . "</td>";
-        echo "<td>" . $row["Prices"] . "</td>";
-        
-        echo "<td>";
-        if($_SESSION["Role"]==1) {  // Quản trị
-            echo "<a onclick=\"return confirm('Bạn có chắc xóa không?');\" href='xoa_donhang.php?ma=" . $row["OrderID"] . "'>
-            <img src='images/icons8-delete-24.png' style='width: 60px; height: 50px;' class='delete-button'>
-          </a>";        }
-        echo "</td>";
-        
-        echo "</tr>";
-    }
-    
-    echo "</table>";
-    } else {
-        echo "Không có đơn hàng nào.";
-    }
-    
-    // Đóng kết nối
-    $conn->close();
-    ?>
+            <th>Số lượng tồn kho</th>
+            <th>Số lượng đặt</th>
+            <th>Thanh toán</th>
+        </tr>
+        <?php
+		//Select dữ liệu từ bảng books
+		//1- Kết nối cơ sở dữ liệu
+		include_once("connect.php");
+		
+		//2- Viết câu truy vấn
+		$sql = "SELECT * FROM books WHERE ISBN = '$isbn'";
+		
+		//3-Thực thi câu truy vấn, nhận kết quả trả về
+		$result = $conn->query($sql);
+		
+		//4 - Kiểm tra dữ liệu và hiển kết quả nếu có mẩu tin
+		if($result->num_rows>0)
+		{
+			//Có mẩu tin >>Hiển thị từng mẩu tin
+			while($row = $result->fetch_assoc())
+			{
+				echo "<tr>";
+				echo "<td>".$name."</td>";
+				echo "<td>".$row["ISBN"]."</td>";
+				echo "<td>".$row["Title"]."</td>";
+				echo "<td>".$row["Price"]."</td>";
+				echo "<td>".$row["Soluong"]."</td>";
+				echo "<td>".$soLuongMua."</td>";
+				echo "<td>";
+				?>
+
+        <a href="
+    hoadon_thanhtoan.php?ma=<?php echo $row["ISBN"];?>&slm=<?php echo $soLuongMua;?>&gia=<?php echo $row["Price"];?>">
+            Thanh
+            toán</a>
+        <?php
+				echo "</td>";
+				echo "</tr>";
+			}
+		}
+		else
+		{
+			//0 có mẩu tin
+			echo "0 có quyển sách nào trong giỏ";
+		}
+		
+	?>
+
+    </table>
+    <!-- <h3><a class="btn btn-primary" href="trangchu.php">Quay lại trang chủ</a></h3> -->
     <hr>
     <div class="row">
         <div class="col-md-2" ; style="color: #000000">
@@ -246,7 +219,7 @@ if ($result->num_rows > 0) {
             <ul>
                 <li><a target="#" href="trangchu.php" style="color: #000000">Trang chủ</a></li>
                 <li><a target="#" href="giohang.php" style="color: #000000">Giỏ hàng</a></li>
-                <li><a target="#" href="donhang.php" style="color: #000000">Đơn hàng</a></li>
+                <li><a target="#" href="donhang_kh.php" style="color: #000000">Đơn hàng</a></li>
 
             </ul>
         </div>

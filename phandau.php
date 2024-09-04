@@ -75,13 +75,18 @@ include_once 'connect.php';
             <li class="nav-item">
                 <a class="nav-link" style="color: #FF00FF;" href="quantri.php">Đến trang quản trị</a>
             </li>
+
+
+
+
+
             <?php } ?>
             <li class="nav-item">
                 <a class="nav-link" href="trangchu.php">Trang chủ</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
             <li><a class="nav-link" href="donhang.php">Đơn hàng</a></li>
-            </li>
+            </li> -->
 
             <li class="nav-item">
             <li><a class="nav-link" href="giohang.php">Giỏ hàng</a></li>
@@ -98,19 +103,39 @@ include_once 'connect.php';
                     <li><a class="dropdown-item" href="trangchu.php?category=10">Sách Y Khoa</a></li>
                 </ul>
             </li>
+
+
+
             <!--<li class="nav-item">
 		<a class="nav-link" href="#">Liên hệ</a>
 	  </li>	-->
-            <?php if (isset($_SESSION['Name']) == 0) { ?>
-            <li><a class="nav-link" href="registry.php">Đăng ký</a></li>
-            <li><a class="nav-link" href="login.php">Đăng nhập</a></li>
-            </li>
+
+
+
+            <?php if (!isset($_SESSION['Name'])) { ?>
+            <li class="nav-item"><a class="nav-link" href="registry.php">Đăng ký</a></li>
+            <li class="nav-item"><a class="nav-link" href="login.php">Đăng nhập</a></li>
             <?php } else { ?>
-            <li><a class="nav-link" href="logout.php?flag=1">Đăng xuất</a></li>
-            <li><a class="nav-link" href="#"><?php echo 'Xin chào ' .
-        $_SESSION['Name'] .
-        '!'; ?></a>
-                <?php } ?>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <?php echo 'Xin chào ' . $_SESSION['Name'] . '!'; ?>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a></li>
+                    <li><a class="dropdown-item" href="profile.php">Xem thông tin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php?flag=1">Đăng xuất</a></li>
+
+                </ul>
+            </li>
+            <?php } ?>
+
+
+
+
+
+
+
         </ul>
         <!-- thiết kế logo và nút tìm kiếm-->
         <div class="row align-items-center">
@@ -302,7 +327,7 @@ include_once 'connect.php';
                 <ul>
                     <li><a target="#" href="trangchu.php" style="color: #000000">Trang chủ</a></li>
                     <li><a target="#" href="giohang.php" style="color: #000000">Giỏ hàng</a></li>
-                    <li><a target="#" href="donhang.php" style="color: #000000">Đơn hàng</a></li>
+                    <li><a target="#" href="donhang_kh.php" style="color: #000000">Đơn hàng</a></li>
 
                 </ul>
             </div>

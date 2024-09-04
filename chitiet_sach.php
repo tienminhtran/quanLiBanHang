@@ -66,9 +66,9 @@ include_once 'connect.php';
             <li class="nav-item">
                 <a class="nav-link" href="trangchu.php">Trang chủ</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
             <li><a class="nav-link" href="donhang.php">Đơn hàng</a></li>
-            </li>
+            </li> -->
 
             <li class="nav-item">
             <li><a class="nav-link" href="giohang.php">Giỏ hàng</a></li>
@@ -106,6 +106,8 @@ include_once 'connect.php';
 </html>
 
 <div class="container ">
+
+
     <?php
 //1 - Nhận mã ISBN được gửi từ liên kết
 $isbn = '';
@@ -181,6 +183,8 @@ $result = $conn->query($sql2);
 
                             <div class="mb-3 mt-3">
                                 <input class="btn btn-danger me-5" type="submit" name="sbThemhang" value="Mua Hàng">
+                                <!-- <input class="btn btn-danger me-3" type="submit" name="..........."
+                                    value="Thêm giỏ hàng"> -->
                                 <!-- <a class="btn btn-primary" href="trangchu.php">Quay lại trang chủ</a> -->
                             </div>
                         </form>
@@ -230,7 +234,7 @@ $result = $conn->query($sql2);
                 <ul>
                     <li><a target="#" href="trangchu.php" style="color: #000000">Trang chủ</a></li>
                     <li><a target="#" href="giohang.php" style="color: #000000">Giỏ hàng</a></li>
-                    <li><a target="#" href="donhang.php" style="color: #000000">Đơn hàng</a></li>
+                    <li><a target="#" href="donhang_kh.php" style="color: #000000">Đơn hàng</a></li>
 
                 </ul>
             </div>

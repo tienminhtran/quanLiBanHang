@@ -17,9 +17,51 @@
     <link rel="stylesheet" href="./CSS/style.min.css">
     <link rel="stylesheet" href="./CSS/login.min.css">
     <link rel="stylesheet" href="./CSS/resp_login.min.css">
+
+    <style>
+    .btn-custom-primary {
+        background-color: #007bff;
+        /* Màu nền của nút Đăng nhập */
+        border-color: #007bff;
+        /* Màu viền của nút Đăng nhập */
+        color: #fff;
+        /* Màu chữ của nút Đăng nhập */
+    }
+
+    .btn-custom-primary:hover {
+        background-color: #0056b3;
+        /* Màu nền khi di chuột qua */
+        border-color: #0056b3;
+        /* Màu viền khi di chuột qua */
+    }
+
+    .btn-custom-success {
+        background-color: #28a745;
+        /* Màu nền của nút Đăng ký */
+        border-color: #28a745;
+        /* Màu viền của nút Đăng ký */
+        color: #fff;
+        /* Màu chữ của nút Đăng ký */
+    }
+
+    .btn-custom-success:hover {
+        background-color: #218838;
+        /* Màu nền khi di chuột qua */
+        border-color: #1e7e34;
+        /* Màu viền khi di chuột qua */
+    }
+
+    .btn-block {
+        width: 100%;
+        /* Đảm bảo nút chiếm toàn bộ chiều rộng của cột */
+    }
+
+    .dk {
+        margin-bottom: 15px;
+        /* Khoảng cách giữa các nút */
+    }
+    </style>
 </head>
-<!-- Quản trị: admin ; mật khẩu: 123
-Khách hàng: khachhang ; mật khẩu: 123 -->
 
 <body>
     <div class="loading">
@@ -27,9 +69,7 @@ Khách hàng: khachhang ; mật khẩu: 123 -->
     </div>
 
     <main class="app">
-        <header>
-
-        </header>
+        <header></header>
         <section>
             <div class="container">
                 <div class="row no-gutters">
@@ -76,37 +116,19 @@ Khách hàng: khachhang ; mật khẩu: 123 -->
                             <div class="form-group">
                                 <div class="row no-gutters">
                                     <div class="col col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12"></div>
-                                    <div class="form-group__item col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                        <a class="form-group__link hover-text" href="registry.php">Đăng ký</a>
-                                    </div>
+
                                 </div>
                             </div>
-                            <button class="submit btn btn-primary" name="sbDangNhap">Đăng nhập</button>
-                            <div class="form__footer">
-                                <h3>Connect with Social Networks</h3>
-                                <div class="social d-flex justify-content-center">
-                                    <div class="social-item social-item--facebook">
-                                        <span class="social-item__icon social-item__icon--facebook">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </span>
-                                        <span class="social-item__text">Facebook</span>
-                                    </div>
-                                    <div class="social-item social-item--google">
-                                        <span class="social-item__icon social-item__icon--google">
-                                            <i class="fab fa-google"></i>
-                                        </span>
-                                        <span class="social-item__text">Google</span>
-                                    </div>
-                                    <div class="social-item social-item--twitter">
-                                        <span class="social-item__icon social-item__icon--twitter">
-                                            <i class="fab fa-twitter"></i>
-                                        </span>
-                                        <span class="social-item__text">Twitter</span>
-                                    </div>
+                            <div class="container mt-5">
+                                <div class="dk">
+                                    <button class="btn btn-custom-primary btn-lg btn-block" name="sbDangNhap">
+                                        Đăng nhập
+                                    </button>
+                                </div>
+                                <div class="dk">
+                                    <a class="btn btn-custom-success btn-lg btn-block" href="registry.php">Đăng ký</a>
                                 </div>
                             </div>
-                            <a href="forgotPassword.html" class="form__footer__link hover-text">Forgot your
-                                password?</a>
                         </form>
                     </div>
                 </div>
@@ -126,9 +148,12 @@ Khách hàng: khachhang ; mật khẩu: 123 -->
         }, 500);
     });
     </script>
+</body>
 
-    <!-- <div class="container mt-3">
-  <h3>Đăng nhập hệ thống</h3>
+</html>
+
+<!-- <div class="container mt-3">
+<h3>Đăng nhập hệ thống</h3>
       
   <form action="xuly_dangnhap.php" class="was-validated" method = "post">
     <div class="mb-3 mt-3">
@@ -149,6 +174,3 @@ Khách hàng: khachhang ; mật khẩu: 123 -->
   <button type="submit" class="btn btn-primary" name = "sbDangNhap">Đăng nhập</button>
   </form>
 </div> -->
-</body>
-
-</html>

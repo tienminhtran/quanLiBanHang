@@ -71,9 +71,7 @@ include_once 'connect.php';
             <li class="nav-item">
                 <a class="nav-link" href="trangchu.php">Trang chủ</a>
             </li>
-            <li class="nav-item">
-            <li><a class="nav-link" href="donhang.php">Đơn hàng</a></li>
-            </li>
+
             <li class="nav-item">
             <li><a class="nav-link" href="giohang.php">Giỏ hàng</a></li>
             </li>
@@ -213,7 +211,6 @@ if ($result->num_rows > 0) {
     // Đóng kết nối
     $conn->close();
     ?>
-
     <hr>
     <div class="row">
         <div class="col-md-2" ; style="color: #000000">

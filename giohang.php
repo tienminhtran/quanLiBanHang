@@ -69,9 +69,9 @@ include_once 'connect.php';
             <li class="nav-item">
                 <a class="nav-link" href="trangchu.php">Trang chủ</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
             <li><a class="nav-link" href="donhang.php">Đơn hàng</a></li>
-            </li>
+            </li> -->
             <li class="nav-item">
             <li><a class="nav-link" href="giohang.php">Giỏ hàng</a></li>
             </li>
@@ -219,7 +219,7 @@ if(isset($_POST['sbThemhang'])) {
             <ul>
                 <li><a target="#" href="trangchu.php" style="color: #000000">Trang chủ</a></li>
                 <li><a target="#" href="giohang.php" style="color: #000000">Giỏ hàng</a></li>
-                <li><a target="#" href="donhang.php" style="color: #000000">Đơn hàng</a></li>
+                <li><a target="#" href="donhang_kh.php" style="color: #000000">Đơn hàng</a></li>
 
             </ul>
         </div>

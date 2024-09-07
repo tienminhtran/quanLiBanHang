@@ -2,6 +2,7 @@
 <?php
 	include_once("qt_phandau.php");
 ?>
+
 <!--Phần nội dung-->
 <h2>
     Quản lý thông tin sách
@@ -49,24 +50,24 @@
 				echo "<td>".$row["Soluong"]."</td>";
 				echo "<td>";
 				?>
-    <a onclick="return confirm('Bạn có chắc xóa không?');" href="xoa_sach.php?ma=<?php echo $row["ISBN"];?>"><img
-            src="images/icons8-delete-24.png"></a>
+    <a onclick="return confirm('Bạn có chắc xóa không?');" href="xoa_sach.php?ma=<?php echo $row["ISBN"];?>">
+        <img src='images/icons8-delete-24.png' style='width: 60px; height: 50px; ' class='delete-button'>
 
-    <?php
+        <?php
 				echo "</td>";
 				echo "<td>";
 				?>
-    <a href="sua_sach.php?ma=<?php echo $row["ISBN"];?>"><img src="images/icons8-edit-24.png"> </a>
-    <?php
+        <a href="sua_sach.php?ma=<?php echo $row["ISBN"];?>"><img src="images/icons8-edit-24.png"> </a>
+        <?php
 				echo "</td>";
 				
 				
 				echo "<td>";
 				?>
-    <a href="xem_photo.php?ma=<?php echo $row["ISBN"];?>"><img src="images/icons8-view-24.png"></a>
+        <a href="xem_photo.php?ma=<?php echo $row["ISBN"];?>"><img src="images/icons8-view-24.png"></a>
 
 
-    <?php
+        <?php
 				echo "</td>";
 				echo "</tr>";
 			}

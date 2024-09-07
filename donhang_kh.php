@@ -73,12 +73,28 @@ if (!isset($_SESSION['Name'])) {
 $username = $_SESSION['Name']; // Username from session
 
 // SQL query to get orders for the logged-in user
-$sql = "SELECT o.OrderID, a.Username, o.Amount, o.DateTran, i.ISBN, b.Title, b.Price, i.Prices, i.Quantity
-        FROM orders o
-        INNER JOIN order_items i ON o.OrderID = i.OrderID
-        INNER JOIN accounts a ON o.AccountID = a.AccountID
-        INNER JOIN books b ON i.ISBN = b.ISBN
-        WHERE a.Username = ?";
+$sql = "SELECT 
+            o.OrderID, 
+            a.Username, 
+            o.Amount, 
+            o.DateTran, 
+            i.ISBN, 
+            b.Title, 
+            b.Price, 
+            i.Prices, 
+            i.Quantity,
+            (i.Quantity * b.Price) AS TotalPrice  -- Calculated column for total price per item
+        FROM 
+            orders o
+        INNER JOIN 
+            order_items i ON o.OrderID = i.OrderID
+        INNER JOIN 
+            accounts a ON o.AccountID = a.AccountID
+        INNER JOIN 
+            books b ON i.ISBN = b.ISBN
+        WHERE 
+            a.Username = ?";
+
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('s', $username);
@@ -145,15 +161,13 @@ $result = $stmt->get_result();
 <body cz-shortcut-listen="true">
     <div class="container">
         <ul class="nav justify-content-end">
+            <?php if (isset($_SESSION['RoleID']) && $_SESSION['RoleID'] == 1) { // Quản trị ?>
             <li class="nav-item">
-                <a class="nav-link" href="trangchu.php">Trang chủ</a>
+                <a class="nav-link" style="color: #FF00FF;" href="quantri.php">Đến trang quản trị</a>
             </li>
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="donhang.php">Đơn hàng</a>
-            </li> -->
-            <li class="nav-item">
-                <a class="nav-link" href="giohang.php">Giỏ hàng</a>
-            </li>
+            <?php } ?>
+            <li class="nav-item"><a class="nav-link" href="trangchu.php">Trang chủ</a></li>
+            <li class="nav-item"><a class="nav-link" href="giohang.php">Giỏ hàng</a></li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Sản Phẩm</a>
                 <ul class="dropdown-menu">
@@ -165,21 +179,21 @@ $result = $stmt->get_result();
                     <li><a class="dropdown-item" href="trangchu.php?category=10">Sách Y Khoa</a></li>
                 </ul>
             </li>
-            <?php if (!isset($_SESSION['Name'])): ?>
-            <li class="nav-item">
-                <a class="nav-link" href="registry.php">Đăng ký</a>
+            <?php if (!isset($_SESSION['Name'])) { ?>
+            <li class="nav-item"><a class="nav-link" href="registry.php">Đăng ký</a></li>
+            <li class="nav-item"><a class="nav-link" href="login.php">Đăng nhập</a></li>
+            <?php } else { ?>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <?php echo 'Xin chào ' . $_SESSION['Name'] . '!'; ?>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php?flag=1">Đăng xuất</a></li>
+                </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login.php">Đăng nhập</a>
-            </li>
-            <?php else: ?>
-            <li class="nav-item">
-                <a class="nav-link" href="logout.php?flag=1">Đăng xuất</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><?php echo 'Xin chào ' . htmlspecialchars($_SESSION['Name']) . '!'; ?></a>
-            </li>
-            <?php endif; ?>
+            <?php } ?>
         </ul>
     </div>
 
@@ -197,7 +211,7 @@ $result = $stmt->get_result();
                     <th>Giá</th>
                     <th>Số lượng</th>
                     <th>Tổng tiền</th>
-                    <th>Xoá</th>
+                     <th>Xoá</th>
                 </tr>";
 
             while ($row = $result->fetch_assoc()) {
@@ -209,7 +223,7 @@ $result = $stmt->get_result();
                 echo "<td>" . htmlspecialchars($row["Title"]) . "</td>";
                 echo "<td>" . htmlspecialchars($row["Price"]) . "</td>";
                 echo "<td>" . htmlspecialchars($row["Quantity"]) . "</td>";
-                echo "<td>" . htmlspecialchars($row["Prices"]) . "</td>";
+                echo "<td>" . htmlspecialchars($row["TotalPrice"]) . "</td>";
 
                 echo "<td>";
                 if ($_SESSION["Role"] == 1) { // Quản trị
@@ -229,6 +243,70 @@ $result = $stmt->get_result();
         $conn->close();
         ?>
     </div>
+    <div class="container">
+        <hr>
+        <div class="row">
+            <div class="col-md-2" ; style="color: #000000">
+                <h6>Địa chỉ:</h6>
+                <p>Số 04, Nguyễn Văn Bảo, Phường 4, Gò Vấp, Hồ Chi Minh</p>
+            </div>
+            <div class="col-md-2" ; style="color: #000000">
+                <h6>Số điện thoại:</h6>
+                <p>0123456789</p>
+                <p>0911123456</p>
+            </div>
+            <div class="col-md-2" ; style="color: #000000">
+                <h6>Mạng xã hội</h6>
+
+                <a target="#" href="https://www.w3schools.com/bootstrap4/" style="color: #000000">
+                    <img src="./images/Youtube-on.webp">
+                    Youtube
+                </a>
+                <br>
+                <a target="#" href="https://www.w3schools.com/bootstrap4/" style="color: #000000">
+                    <img src="./images/Facebook-on.webp">
+                    Facebook
+                </a><br>
+                <a target="#" href="https://www.w3schools.com/bootstrap4/bootstrap_get_started.asp"
+                    style="color: #000000">
+                    <img src="./images/twitter-on.webp">
+                    Twitter
+                </a>
+
+
+            </div>
+            <div class="col-md-2" ; style="color: #000000">
+                <h6>Về chúng tôi</h6>
+                <ul>
+                    <li><a target="#" href="trangchu.php" style="color: #000000">Trang chủ</a></li>
+                    <li><a target="#" href="giohang.php" style="color: #000000">Giỏ hàng</a></li>
+                    <li><a target="#" href="donhang_kh.php" style="color: #000000">Đơn hàng</a></li>
+
+                </ul>
+            </div>
+            <div class="col">
+                <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <a href="http://online.gov.vn/Home/WebDetails/19168">
+                        <img src="./images/bc.png" width="230" height="90">
+                    </a>
+                </div>
+                <div>
+                    <img src=" ./images/ZaloPay-logo-130x83.webp" width="85" height="40">
+                    <img src="./images/shopeepay_logo.webp" width="70" height="40">
+                    <img src="./images/momopay.webp" width="50" height="40">
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-md-6">&nbsp</div> -->
+
+    </div>
+    <!-- màu đen  -->
+    <span style="color: #000000	;">
+        <footer class="container-fluid text-center">
+            <p>© 2021 Bản quyền thuộc về Team Code K17</p>
+        </footer>
+        </div>
 </body>
 
 </html>

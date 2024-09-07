@@ -35,7 +35,7 @@ td:last-child {
 }
 
 .delete-button {
-    background-color: #ff4d4d;
+    /* background-color: #ff4d4d; */
     color: white;
     border: none;
     padding: 5px 10px;
@@ -91,16 +91,16 @@ td:last-child {
 				echo "<td>";
 				?>
     <a onclick="return confirm('Bạn có chắc xóa không?');" href="xoa_danhmuc.php?ma=<?php echo $row["CategoryID"];?>">
-        <img src="images/icons8-delete-24.png"></a>
+        <img src='images/icons8-delete-24.png' style='width: 60px; height: 50px;' class='delete-button'>
 
-    <?php
+        <?php
 				echo "</td>";
 				echo "<td>";
 				?>
-    <a href="sua_danhmuc.php?ma=<?php echo $row['CategoryID']; ?>" class="centered-link">
-        <img src="images/icons8-edit-24.png" alt="Edit Icon">
-    </a>
-    <?php
+        <a href="sua_danhmuc.php?ma=<?php echo $row['CategoryID']; ?>" class="centered-link">
+            <img src="images/icons8-edit-24.png" alt="Edit Icon">
+        </a>
+        <?php
 				echo "</td>";
 				echo "</tr>";
 			}

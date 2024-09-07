@@ -39,7 +39,8 @@ if ($conn->query($sql_dathang) === TRUE) {
     $sql_soluong = "UPDATE books SET Soluong = Soluong - '$soLuongMua' WHERE ISBN = '$isbn'";
     if($conn->query($sql_soluong) === TRUE) {
         echo "Bạn đã đặt hàng thành công!";
-		header("Location:donhang.php");
+        // dte update 7/9 
+		header("Location:donhang_kh.php");
     } else {
         echo "Error: " . $sql_soluong . "<br>" . $conn->error;
     }

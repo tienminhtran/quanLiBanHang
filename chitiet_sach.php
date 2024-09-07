@@ -189,7 +189,7 @@ if (isset($_SESSION['Name'])) {
                         <h3><?php echo 'Tên sách: ' . $title_val; ?></h3>
                         <p><b>Thông tin tác giả:</b> <?php echo $author_val; ?></p>
                         <p><b>Thể loại:</b> <?php echo $cate_val; ?></p>
-                        <p><b>Số lượng tồn:</b> <?php echo $soluong_val; ?></p>
+                        <p><b>Số lượng tồn:</b> <span id="stockQuantity"><?php echo $soluong_val; ?></span></p>
                         <p><b>Giá bán:</b> <?php echo $price_val; ?> VND</p>
                         <p><b>Mô tả sản phẩm:</b></p>
                         <p><?php echo $des_val; ?></p>
@@ -207,14 +207,13 @@ if (isset($_SESSION['Name'])) {
                             </div>
                         </form>
 
+                        <!-- Input for quantity to add to cart -->
                         <form name="frmGiohang" action="giohang.php" method="post">
                             <div class="mb-3 mt-3">
                                 <label for="txtSoLuongGH" class="form-label"><b>Nhập số lượng sách cần thêm giỏ
                                         hàng:</b></label>
                                 <input type="number" class="form-control" id="txtSoLuongGH"
                                     placeholder="Nhập số lượng sách cần thêm" name="txtSoLuongGH" min="1" required>
-
-
                             </div>
                             <input type="hidden" name="txtISBN" value="<?php echo htmlspecialchars($isbn_val); ?>">
                             <input type="hidden" name="slDanhMuc" value="<?php echo htmlspecialchars($cate_val); ?>">
@@ -233,7 +232,32 @@ if (isset($_SESSION['Name'])) {
     </div>
     <div class="col-sm-2"></div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const stockQuantity = parseInt(document.getElementById('stockQuantity').textContent, 10);
 
+    document.getElementById('txtSoLuongMua').addEventListener('input', function() {
+        const enteredQuantity = parseInt(this.value, 10);
+        if (enteredQuantity > stockQuantity) {
+            alert('Số lượng yêu cầu vượt quá số lượng tồn kho.');
+            // trả về ô nhập trống
+            this.value = '';
+
+
+            // this.value = stockQuantity;
+        }
+    });
+
+    document.getElementById('txtSoLuongGH').addEventListener('input', function() {
+        const enteredQuantity = parseInt(this.value, 10);
+        if (enteredQuantity > stockQuantity) {
+            alert('Số lượng yêu cầu vượt quá số lượng tồn kho.');
+            this.value = '';
+            // this.value = stockQuantity;
+        }
+    });
+});
+</script>
 
 <?php include_once 'phanchan.php';
 ?>

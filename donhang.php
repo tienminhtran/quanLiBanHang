@@ -118,18 +118,28 @@ include_once 'connect.php';
 // session_start();
 //1-Kết nối cơ sở dữ liệu
 // include_once("connect.php");
-
-// Truy vấn để lấy thông tin đơn hàng của mọi khách hàng kèm theo tên khách hàng và tiêu đề sách
-$sql = "SELECT o.OrderID, a.Username, o.Amount, o.DateTran, i.ISBN, b.Title, b.Price, i.Prices, i.Quantity
-        FROM orders o
-        INNER JOIN order_items i ON o.OrderID = i.OrderID
-        INNER JOIN accounts a ON o.AccountID = a.AccountID
-        INNER JOIN books b ON i.ISBN = b.ISBN";
+// SQL query to retrieve order information with customer names and book titles
+$sql = "SELECT 
+            o.OrderID, 
+            a.Username, 
+            o.Amount, 
+            o.DateTran, 
+            i.ISBN, 
+            b.Title, 
+            b.Price, 
+            i.Prices, 
+            i.Quantity,
+            (i.Quantity * b.Price) AS TotalPrice  
+        FROM 
+            orders o
+        INNER JOIN 
+            order_items i ON o.OrderID = i.OrderID
+        INNER JOIN 
+            accounts a ON o.AccountID = a.AccountID
+        INNER JOIN 
+            books b ON i.ISBN = b.ISBN";
 
 $result = $conn->query($sql);
-
-
-
 
 if ($result->num_rows > 0) {
     echo "
@@ -183,93 +193,31 @@ if ($result->num_rows > 0) {
         </tr>";
     
     while($row = $result->fetch_assoc()) {
-        echo "<tr> ";
-        echo "<td>" . $row["OrderID"] . "</td>";
-        echo "<td>" . $row["Username"] . "</td>";
-        echo "<td>" . $row["DateTran"] . "</td>";
-        echo "<td>" . $row["ISBN"] . "</td>";
-        echo "<td>" . $row["Title"] . "</td>";  
-        echo "<td>" . $row["Price"] . "</td>";     
-        echo "<td>" . $row["Quantity"] . "</td>";
-        echo "<td>" . $row["Prices"] . "</td>";
+        echo "<tr>";
+        echo "<td>" . htmlspecialchars($row["OrderID"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Username"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["DateTran"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["ISBN"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Title"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Price"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Quantity"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["TotalPrice"]) . "</td>";  // Display the calculated TotalPrice
         
         echo "<td>";
-        if($_SESSION["Role"]==1) {  // Quản trị
-            echo "<a onclick=\"return confirm('Bạn có chắc xóa không?');\" href='xoa_donhang.php?ma=" . $row["OrderID"] . "'>
+        if ($_SESSION["Role"] == 1) {  // Admin role check
+            echo "<a onclick=\"return confirm('Bạn có chắc xóa không?');\" href='xoa_donhang.php?ma=" . htmlspecialchars($row["OrderID"]) . "'>
             <img src='images/icons8-delete-24.png' style='width: 60px; height: 50px;' class='delete-button'>
-          </a>";        }
+          </a>";
+        }
         echo "</td>";
-        
         echo "</tr>";
     }
     
     echo "</table>";
-    } else {
-        echo "Không có đơn hàng nào.";
-    }
-    
-    // Đóng kết nối
-    $conn->close();
-    ?>
-    <hr>
-    <div class="row">
-        <div class="col-md-2" ; style="color: #000000">
-            <h6>Địa chỉ:</h6>
-            <p>Số 04, Nguyễn Văn Bảo, Phường 4, Gò Vấp, Hồ Chi Minh</p>
-        </div>
-        <div class="col-md-2" ; style="color: #000000">
-            <h6>Số điện thoại:</h6>
-            <p>0123456789</p>
-            <p>0911123456</p>
-        </div>
-        <div class="col-md-2" ; style="color: #000000">
-            <h6>Mạng xã hội</h6>
+} else {
+    echo "Không có đơn hàng nào.";
+}
 
-            <a target="#" href="https://www.w3schools.com/bootstrap4/" style="color: #000000">
-                <img src="./images/Youtube-on.webp">
-                Youtube
-            </a>
-            <br>
-            <a target="#" href="https://www.w3schools.com/bootstrap4/" style="color: #000000">
-                <img src="./images/Facebook-on.webp">
-                Facebook
-            </a><br>
-            <a target="#" href="https://www.w3schools.com/bootstrap4/bootstrap_get_started.asp" style="color: #000000">
-                <img src="./images/twitter-on.webp">
-                Twitter
-            </a>
-
-
-        </div>
-        <div class="col-md-2" ; style="color: #000000">
-            <h6>Về chúng tôi</h6>
-            <ul>
-                <li><a target="#" href="trangchu.php" style="color: #000000">Trang chủ</a></li>
-                <li><a target="#" href="giohang.php" style="color: #000000">Giỏ hàng</a></li>
-                <li><a target="#" href="donhang.php" style="color: #000000">Đơn hàng</a></li>
-
-            </ul>
-        </div>
-        <div class="col">
-            <div>
-                <a href="http://online.gov.vn/Home/WebDetails/19168">
-                    <img src="./images/bc.png" width="230" height="90">
-                </a>
-            </div>
-            <div>
-                <img src=" ./images/ZaloPay-logo-130x83.webp" width="85" height="40">
-                <img src="./images/shopeepay_logo.webp" width="70" height="40">
-                <img src="./images/momopay.webp" width="50" height="40">
-            </div>
-        </div>
-    </div>
-
-    <!-- <div class="col-md-6">&nbsp</div> -->
-
-</div>
-<!-- màu đen  -->
-<span style="color: #000000	;">
-    <footer class="container-fluid text-center">
-        <p>© 2021 Bản quyền thuộc về Team Code K17</p>
-    </footer>
-    </div>
+// Close the connection
+$conn->close();
+?>

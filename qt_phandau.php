@@ -43,15 +43,23 @@ include_once("connect.php");?>
             <li class="nav-item  dropdown">
                 <a class="nav-link  dropdown-toggle" data-bs-toggle="dropdown" href="#">Thống kê</a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="thongke_anpham.php">Số ấn phẩm theo danh mục</a></li>
-                    <li><a class="dropdown-item" href="thongke_doanhthu.php">Doanh thu</a></li>
-                    <li><a class="dropdown-item" href="thongke_bieudo.php">Trực quan </a></li>
+                    <li><a class="dropdown-item" href="thongke_anpham.php">Về ấn phẩm </a></li>
+                    <li><a class="dropdown-item" href="thongke_doanhthu.php">Về doanh thu</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="logout.php?flag=1">Đăng xuất</a>
+            <?php if (!isset($_SESSION['Name'])) { ?>
+            <li class="nav-item"><a class="nav-link" href="registry.php">Đăng ký</a></li>
+            <li class="nav-item"><a class="nav-link" href="login.php">Đăng nhập</a></li>
+            <?php } else { ?>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <?php echo 'Xin chào ' . $_SESSION['Name'] . '!'; ?>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="change_password.php">Đổi mật khẩu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php?flag=1">Đăng xuất</a></li>
+                </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><?php echo "Xin chào ".$_SESSION["Name"]."!";?></a>
-            </li>
+            <?php } ?>
         </ul>

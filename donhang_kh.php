@@ -13,15 +13,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
     .col-sm-8 {
-        border: 1px solid #ccc;
+        /* border: 1px solid #ccc; */
         padding: 10px;
-    }
+    }[]
 
     .row {
-        border: 1px solid #ccc;
+        /* border: 1px solid #ccc; */
         padding: 10px;
         color: #FF0000;
-        background-color: #66FFFF;
+        /* background-color: #66FFFF; */
         margin-bottom: 20px;
     }
 

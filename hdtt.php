@@ -1,5 +1,13 @@
 <?php
 session_start();
+if(!isset($_SESSION["Name"]))
+{
+	header("Location:login.php");
+}
+if($_SESSION["Role"]==2)//Khách hàng
+{
+	header("Location:trangchu.php");
+}
 include_once 'connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

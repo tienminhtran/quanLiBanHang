@@ -1,5 +1,14 @@
 <?php
 session_start();
+if(!isset($_SESSION["Name"]))
+{
+	header("Location:login.php");
+}
+if($_SESSION["Role"]==2)//Khách hàng
+{
+	header("Location:trangchu.php");
+}
+
 include_once("connect.php");
 ?>
 
@@ -118,11 +127,16 @@ include_once("connect.php");
                     <li><a class="dropdown-item" href="donhang.php">Đơn hàng</a></li>
                 </ul>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="quanlykhachhang.php">Quản lý khách hàng</a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Thống kê</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="thongke_anpham.php">Về ấn phẩm</a></li>
                     <li><a class="dropdown-item" href="thongke_doanhthu.php">Về doanh thu</a></li>
+                    <li><a class="dropdown-item" href="thongke_solieu.php">Về tồn kho</a></li>
+
                 </ul>
             </li>
             <?php if (!isset($_SESSION['Name'])) { ?>

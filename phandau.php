@@ -21,15 +21,15 @@ include_once 'connect.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
     .col-sm-8 {
-        border: 1px solid #ccc;
+        /* border: 1px solid #ccc; */
         padding: 10px;
     }
 
     .row {
-        border: 1px solid #ccc;
+        /* border: 1px solid #ccc; */
         padding: 10px;
         color: #FF0000;
-        background-color: #66FFFF;
+        /* background-color: #66FFFF; */
         margin-bottom: 20px;
     }
 
@@ -37,10 +37,18 @@ include_once 'connect.php';
         text-decoration: none;
         color: #0000FF;
         padding: 5px 10px;
-        border: 1px solid #ccc;
+        /* border: 1px solid #ccc; */
         border-radius: 5px;
         display: block;
         margin-bottom: 5px;
+    }
+
+    .trungtam {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
     }
 
     .col-sm-4 a.nav.nav-tabs:hover {
@@ -174,20 +182,21 @@ include_once 'connect.php';
      echo "<p class='text-center'>Vui lòng nhập từ khóa tìm kiếm.</p>";
  }
  ?>
-        <div class="row">
-            <div class="col-sm-4">
-                <a class="nav nav-tabs" href="trangchu.php">Tất Cả Sản Phẩm</a>
-                <a class="nav nav-tabs" href="trangchu.php?category=5">Sách Văn Học Việt Nam</a>
-                <a class="nav nav-tabs" href="trangchu.php?category=6">Sách Văn Học Nước Ngoài</a>
-                <a class="nav nav-tabs" href="trangchu.php?category=7">Truyện Cổ Tích - Thần Thoại</a>
-                <a class="nav nav-tabs" href="trangchu.php?category=8">Sách Ngôn Ngữ Lập Trình</a>
-                <a class="nav nav-tabs" href="trangchu.php?category=9">Sách Giáo Khoa - Giảng Dạy</a>
-                <a class="nav nav-tabs" href="trangchu.php?category=10">Sách Y Khoa</a>
-            </div>
-            <div class="col-sm-8">
-                <div id="bookCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <?php
+        <div class="trungtam">
+            <div class=" row">
+                <div class="col-sm-4">
+                    <a class="nav nav-tabs" href="trangchu.php">Tất Cả Sản Phẩm</a>
+                    <a class="nav nav-tabs" href="trangchu.php?category=5">Sách Văn Học Việt Nam</a>
+                    <a class="nav nav-tabs" href="trangchu.php?category=6">Sách Văn Học Nước Ngoài</a>
+                    <a class="nav nav-tabs" href="trangchu.php?category=7">Truyện Cổ Tích - Thần Thoại</a>
+                    <a class="nav nav-tabs" href="trangchu.php?category=8">Sách Ngôn Ngữ Lập Trình</a>
+                    <a class="nav nav-tabs" href="trangchu.php?category=9">Sách Giáo Khoa - Giảng Dạy</a>
+                    <a class="nav nav-tabs" href="trangchu.php?category=10">Sách Y Khoa</a>
+                </div>
+                <div class="col-sm-8">
+                    <div id="bookCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <?php
             //Select dữ liệu từ bảng books
             //1- Kết nối cơ sở dữ liệu
             include_once 'connect.php';
@@ -246,10 +255,10 @@ include_once 'connect.php';
                 echo '<p>0 quyển sách</p>';
             }
             ?>
-                    </div>
-                    <br>
-                    <ol class="carousel-indicators custom-indicators">
-                        <?php if (!empty($slideCount)) {
+                        </div>
+                        <br>
+                        <ol class="carousel-indicators custom-indicators">
+                            <?php if (!empty($slideCount)) {
       for ($i = 0; $i <= $slideCount; $i++) {
           $active = $i == 0 ? 'active' : ''; // active cho phần đầu tiên
           echo '<a data-bs-target="#bookCarousel" data-bs-slide-to="' .
@@ -259,9 +268,11 @@ include_once 'connect.php';
               '"></a>';
       }
   } ?>
-                    </ol>
+                        </ol>
+                    </div>
                 </div>
             </div>
+
         </div>
         <h4>SÁCH HAY:</h4>
         <div class="container">
